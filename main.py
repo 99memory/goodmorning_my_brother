@@ -20,9 +20,11 @@ template_id = os.environ["TEMPLATE_ID"]
 
 def get_weather():
   url = "http://wthrcdn.etouch.cn/weather_mini?city=" + city
-  res = requests.get(url).json()
-  weather = res['data']['list'][0]
-  return weather['weather'], math.floor(weather['temp'])
+  res = requests.get(url)
+  data = res.json()
+  weather = data["data"]["forecast"][0]["type"]
+  temperature = data["data"]["wendu"]
+  return weather, temperature
 
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
