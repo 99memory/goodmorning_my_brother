@@ -19,15 +19,21 @@ template_id = os.environ["TEMPLATE_ID"]
 
 
 def get_weather():
-    url = "https://devapi.qweather.com/v7/weather/3d?location=" + city + "&key=72b5d1a456a94bd38c4a5a448fa1da66"
+    url1 = 'https://geoapi.qweather.com/v2/city/lookup?location=' + city + '&key=72b5d1a456a94bd38c4a5a448fa1da66'
+    response1 = requests.get(url1)
+    data1 = response1.json()
+    id = data1["location"][0]["id"]
 
-    response = requests.get(url)
+    url2 = "https://devapi.qweather.com/v7/weather/3d?location=" + id + "&key=72b5d1a456a94bd38c4a5a448fa1da66"
+    response = requests.get(url2)
     data = response.json()
     weather = data["daily"][0]["textDay"]
     top = data["daily"][0]["tempMax"]
     low = data["daily"][0]["tempMin"]
     temperature = (int(top) + int(low)) / 2
+    print(weather, temperature)
     return weather, temperature
+
 
 
 def get_count():
